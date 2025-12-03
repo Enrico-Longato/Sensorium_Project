@@ -252,16 +252,20 @@ class MouseDataManager:
         Returns:
             Dictionary with video information including:
             - video_id: Video ID
-            - valid_frames: Number of valid frames
-            - num_equivalent: Number of equivalent videos
+            - video_valid_frames: Number of valid frames
+            - number_equivalent_videos: Number of equivalent videos
             - equivalent_videos: List of equivalent video IDs
+            - same_valid_responses: Whether responses are consistent across equivalent videos
+            - incorrect_valid_responses: Number of incorrect responses on valid frames
         """
         metadata = self.get_video_metadata(mouse_id, video_id)
         return {
             "video_id": str(video_id),
-            "valid_frames": metadata.get("video_valid_frames", 0),
-            "num_equivalent": metadata.get("number_equivalent_videos", 0),
+            "video_valid_frames": metadata.get("video_valid_frames", 0),
+            "number_equivalent_videos": metadata.get("number_equivalent_videos", 0),
             "equivalent_videos": metadata.get("equivalent_videos", []),
+            "same_valid_responses": metadata.get("same_valid_responses", False),
+            "incorrect_valid_responses": metadata.get("incorrect_valid_responses", 0),
         }
 
 

@@ -238,15 +238,33 @@ function loadMetadata(mouseId, videoId) {
             
             let html = '';
             html += `<p><strong>Video ID:</strong> ${videoId}</p>`;
+            
+            // Video Valid Frames
             if (data.video_valid_frames !== undefined) {
-                html += `<p><strong>Valid Frames:</strong> ${data.video_valid_frames}</p>`;
+                html += `<p><strong>Total Valid Frames:</strong> ${data.video_valid_frames}</p>`;
             }
+            
+            // Number of Equivalent Videos
             if (data.number_equivalent_videos !== undefined) {
-                html += `<p><strong>Equivalent Videos:</strong> ${data.number_equivalent_videos}</p>`;
+                html += `<p><strong>Number of Equivalent Videos:</strong> ${data.number_equivalent_videos}</p>`;
             }
+            
+            // Consistent Responses Indicator
+            if (data.same_valid_responses !== undefined) {
+                const consistencyLabel = data.same_valid_responses ? '✓ Yes' : '✗ No';
+                html += `<p><strong>Consistent Responses:</strong> ${consistencyLabel}</p>`;
+            }
+            
+            // Incorrect Valid Responses
+            if (data.incorrect_valid_responses !== undefined) {
+                html += `<p><strong>Incorrect Responses on Valid Frames:</strong> ${data.incorrect_valid_responses}</p>`;
+            }
+            
+            // Equivalent Video IDs
             if (data.equivalent_videos && data.equivalent_videos.length > 0) {
                 html += `<p><strong>Equivalent Video IDs:</strong> ${data.equivalent_videos.join(', ')}</p>`;
             }
+            
             container.innerHTML = html;
         })
         .catch(error => {
