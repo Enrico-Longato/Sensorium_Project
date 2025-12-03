@@ -1,0 +1,6 @@
+# Ignore project data directory
+project_data/
+
+# Common Python ignores
+__pycache__/
+*.py[cod]
