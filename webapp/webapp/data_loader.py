@@ -257,7 +257,6 @@ class MouseDataManager:
             - equivalent_videos: List of equivalent video IDs
             - same_valid_responses: Whether responses are consistent across equivalent videos
             - incorrect_valid_responses: Number of incorrect responses on valid frames
-            - label: Video label (if available)
         """
         metadata = self.get_video_metadata(mouse_id, video_id)
         return {
@@ -267,7 +266,6 @@ class MouseDataManager:
             "equivalent_videos": metadata.get("equivalent_videos", []),
             "same_valid_responses": metadata.get("same_valid_responses", False),
             "incorrect_valid_responses": metadata.get("incorrect_valid_responses", 0),
-            "label": metadata.get("label", None),
         }
 
 

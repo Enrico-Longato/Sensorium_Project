@@ -108,42 +108,16 @@ function load3DPlot(mouseId) {
  */
 function loadVideoPlayer(mouseId, videoId) {
     const container = document.getElementById('video-player-container');
-    const labelContainer = document.getElementById('video-label-container');
     container.innerHTML = '<div class="loading">Loading video...</div>';
-    labelContainer.innerHTML = ''; // Clear label
     
-    // Fetch video info to get label
-    const videoInfoPromise = fetch(`/api/mice/${mouseId}/videos/${videoId}/info/`)
-        .then(response => {
-            if (!response.ok) {
-                return null; // If info fetch fails, continue without label
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.warn('Failed to fetch video info:', error);
-            return null;
-        });
-    
-    // Fetch video data
-    const videoDataPromise = fetch(`/api/mice/${mouseId}/videos/${videoId}/video/`)
+    fetch(`/api/mice/${mouseId}/videos/${videoId}/video/`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
-        });
-    
-    // Process both promises
-    Promise.all([videoInfoPromise, videoDataPromise])
-        .then(([videoInfo, data]) => {
-            // Display label if available
-            if (videoInfo && videoInfo.label) {
-                labelContainer.textContent = videoInfo.label;
-            } else {
-                labelContainer.innerHTML = '';
-            }
-            
+        })
+        .then(data => {
             if (data.error) {
                 container.innerHTML = `<div class="error">${data.error}</div>`;
                 return;
@@ -244,7 +218,6 @@ function loadVideoPlayer(mouseId, videoId) {
         .catch(error => {
             console.error('Error loading video:', error);
             container.innerHTML = '<div class="error">Failed to load video: ' + error.message + '</div>';
-            labelContainer.innerHTML = ''; // Clear label on error
         });
 }
 
@@ -569,9 +542,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reset video and neuron dropdowns
             document.getElementById('video-select').disabled = true;
             document.getElementById('neuron-select').disabled = true;
-            
-            // Clear video label
-            document.getElementById('video-label-container').innerHTML = '';
             
             // Load videos
             loadVideos(mouseId);
