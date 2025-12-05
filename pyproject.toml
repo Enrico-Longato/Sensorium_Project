@@ -24,7 +24,8 @@ dependencies = [
     "opencv-python>=4.8.0",
     "imageio>=2.37.0",  # For video conversion
     "imageio-ffmpeg>=0.6.0",  # FFmpeg backend for browser-compatible H.264 encoding
-    "Pillow>=10.0.0",  # For image processing
+    "Pillow>=10.0.0",  # For image 
+    "scikit-image",
 ]
 
 # Usage:

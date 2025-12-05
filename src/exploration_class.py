@@ -4,6 +4,7 @@ import json
 import time
 from typing import Optional, Dict
 from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
 
 
 class Exploration:
@@ -165,6 +166,7 @@ class Exploration:
         atol: Optional[float] = None,
         cosine_threshold=0.98,
         save_path=None,
+        labels: Optional[Dict[str, str]] = None,
     ):
         """
         Check that for each video, the number of valid frames matches the number
@@ -215,6 +217,7 @@ class Exploration:
                 "video_valid_frames": number_valid_video_frames,
                 "same_valid_responses": correct_neuron_responses,
                 "incorrect_valid_responses": incorrect_neuron_responses,
+                "label": labels.get(representative_video, "Unknown") if labels else "Unknown",
             }
 
         if save_path:
@@ -236,12 +239,25 @@ def process_single_mouse(
     start_time = time.time()
     mouse_folder = os.path.basename(mouse_id_path)
     print(f"[{mouse_folder}] Analyzing videos and responses...")
+    
+    # Load labels from classification table
+    labels = {}
+    try:
+        df = pd.read_csv("results/classification_table_naming.csv")
+        mouse_data = df[df['recording'] == mouse_folder]
+        for _, row in mouse_data.iterrows():
+            video_id = row['file'].replace('.npy', '')
+            labels[video_id] = row['label']
+    except FileNotFoundError:
+        print("Warning: classification_table_naming.csv not found, labels will be 'Unknown'")
+    
     exploration.analyze_videos_and_responses(
         method=method,
         rtol=rtol,
         atol=atol,
         cosine_threshold=cosine_threshold,
-        save_path=f"results/combined_metadata_{mouse_folder}.json"
+        save_path=f"results/combined_metadata_{mouse_folder}.json",
+        labels=labels
     )
     end_time = time.time()
     total_time_minutes = (end_time - start_time) / 60

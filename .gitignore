@@ -4,3 +4,18 @@ project_data/
 # Common Python ignores
 __pycache__/
 *.py[cod]
+
+# Virtual environments
+venv/
+env/
+.venv/
+*_env/
+
+# Scripts directory
+scripts/data_exploration.ipynb
+
+# Others
+docs/images_similarities.md
+docs/
+src/*gif
+README_old.md
