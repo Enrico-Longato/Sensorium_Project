@@ -5,7 +5,7 @@ The web application allows users to visualize and explore the Sensorium dataset,
 This is a project part of the Master in Data Management and Curation from AREA Science Park and SISSA in the course of AppliedAI.
 
 ## Contributors
-s
+
 - Enrico
 - Emmanuel
 - Ana
